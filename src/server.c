@@ -17,7 +17,7 @@ int main() {
   char buffer[1024] = {0};
   char *wm = "welcome to the chatroom";
 
-  // creating the socked file descriptor
+  // creating the socket file descriptor
   if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
     perror("socket file descriptor");
     exit(EXIT_FAILURE);
