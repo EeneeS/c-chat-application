@@ -1,0 +1,7 @@
+# ignore compiled binaries
+server
+client
+
+# don't ignore the .c files
+!server.c
+!client.c
