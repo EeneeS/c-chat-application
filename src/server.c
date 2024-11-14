@@ -105,7 +105,7 @@ int accept_connection(int server_fd, struct sockaddr_in *address,
 
 void handle_client(int client_socket) {
   char buffer[1024] = {0};
-  char *wm = "welcome to the chatroom";
+  char *wm = "welcome to the chatroom.";
   ssize_t valread;
 
   valread = read(client_socket, buffer, 1023);
