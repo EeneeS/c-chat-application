@@ -8,6 +8,11 @@
 #define PORT 6969
 #define MAX_BACKLOG 2
 
+typedef struct {
+  int socket;
+  char name[64];
+} client;
+
 int create_socket();
 int set_sock_opt(int, int);
 int bind_socket(int, struct sockaddr_in *);
@@ -45,15 +50,16 @@ int main() {
     return -1;
   }
 
-  new_socket = accept_connection(server_fd, &address, &addrlen);
-  if (new_socket < 0) {
-    close(server_fd);
-    return -1;
-  }
+  while (1) {
+    new_socket = accept_connection(server_fd, &address, &addrlen);
+    if (new_socket < 0) {
+      close(server_fd);
+      return -1;
+    }
+    handle_client(new_socket);
+    /*close(new_socket);*/
+  };
 
-  handle_client(new_socket);
-
-  close(new_socket);
   close(server_fd);
 
   return 0;
@@ -104,17 +110,17 @@ int accept_connection(int server_fd, struct sockaddr_in *address,
 }
 
 void handle_client(int client_socket) {
-  char buffer[1024] = {0};
+  char buffer[64] = {0};
   char *wm = "welcome to the chatroom.";
   ssize_t valread;
 
-  valread = read(client_socket, buffer, 1023);
+  valread = read(client_socket, buffer, 63);
   if (valread < 0) {
     perror("read");
     return;
   }
 
-  printf("Received from client: %s\n", buffer);
+  printf("%s connected to the chatroom.\n", buffer);
   send(client_socket, wm, strlen(wm), 0);
 };
 

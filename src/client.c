@@ -36,7 +36,11 @@ int main(int argc, char const *argv[]) {
     return -1;
   }
 
-  if (send_message(client_fd, hello) < 0) {
+  char client_name[64];
+  printf("Enter your name: ");
+  scanf("%63s", client_name);
+
+  if (send_message(client_fd, client_name) < 0) {
     close_connection(client_fd);
     return -1;
   }
